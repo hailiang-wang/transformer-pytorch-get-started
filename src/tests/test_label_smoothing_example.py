@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 #===============================================================================
 #
-# Copyright (c) 2025 <> All Rights Reserved
-#
+# Modification Right (c) 2025 Hai Liang W.<hailiang.hl.wang@gmail.com> . Licensed under the Apache License, Version 2.0
+# Copyright (c) 2018 Alexander Rush, MIT License, published with https://nlp.seas.harvard.edu/annotated-transformer/
 #
 # File: /c/Users/Administrator/courses/llms/transformer-pytorch-get-started/src/test_mask_example.py
 # Author: Hai Liang Wang
@@ -14,7 +14,7 @@
 """
    
 """
-__copyright__ = "Copyright (c) 2025 Hai Liang W.<hailiang.hl.wang@gmail.com> . All Rights Reserved"
+__copyright__ = "Copyright (c) 2025 Hai Liang W.<hailiang.hl.wang@gmail.com> . Licensed under the Apache License, Version 2.0"
 __author__ = "Hai Liang Wang"
 __date__ = "2025-04-17:15:14:05"
 

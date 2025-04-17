@@ -327,9 +327,10 @@ def train_worker(
         )
 
         GPUtil.showUtilization()
-        if is_main_process:
-            file_path = os.path.join(RESULT_DIR, "%s%.2d.pt" % (hyper_params["file_prefix"], epoch))
-            torch.save(module.state_dict(), file_path)
+        # skip temp model files to save space and boost time
+        # if is_main_process:
+        #     file_path = os.path.join(RESULT_DIR, "%s%.2d.pt" % (hyper_params["file_prefix"], epoch))
+        #     torch.save(module.state_dict(), file_path)
         torch.cuda.empty_cache()
 
         logger.info(f"[GPU{gpu}] Epoch {epoch} Validation ====")
