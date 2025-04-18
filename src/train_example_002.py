@@ -39,6 +39,7 @@ from torch.utils.data import DataLoader
 from torch.nn.functional import log_softmax, pad
 from torchtext.data.functional import to_map_style_dataset
 from torch.utils.data.distributed import DistributedSampler
+from torchinfo import summary
 import GPUtil
 import torch.multiprocessing as mp
 import altair as alt
@@ -394,6 +395,9 @@ def load_trained_model(vocab_src, vocab_tgt, spacy_de, spacy_en):
 
     model = make_model(len(vocab_src), len(vocab_tgt), N=6)
     model.load_state_dict(torch.load(MODEL_PT_FILEPATH))
+    logger.info("Load model, print summary")
+    logger.info(summary(model, verbose=0))
+
     return model
 
 
