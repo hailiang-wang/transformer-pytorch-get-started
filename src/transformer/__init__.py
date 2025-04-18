@@ -36,6 +36,8 @@ from torchinfo import summary
 import copy
 from transformer.network import MultiHeadedAttention, PositionwiseFeedForward, PositionalEncoding, EncoderDecoder, Encoder, EncoderLayer, Decoder, DecoderLayer, Embeddings, Generator
 
+log = lambda x, y: print(x) if y is None else y.info(x)
+
 def make_model(
     src_vocab, 
     tgt_vocab, 
@@ -43,7 +45,8 @@ def make_model(
     d_model=512, 
     d_ff=2048, 
     h=8, 
-    dropout=0.1
+    dropout=0.1,
+    logger=None
 ):
     "Helper: Construct a model from hyperparameters."
     c = copy.deepcopy
@@ -58,7 +61,7 @@ def make_model(
         Generator(d_model, tgt_vocab),
     )
 
-    print(summary(model, verbose=0))
+    log(summary(model, verbose=0))
 
     # This was important from their code.
     # Initialize parameters with Glorot / fan_avg.
