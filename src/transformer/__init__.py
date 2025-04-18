@@ -32,12 +32,18 @@ import torchtext; torchtext.disable_torchtext_deprecation_warning()
 
 import torch
 import torch.nn as nn
+from torchinfo import summary
 import copy
 from transformer.network import MultiHeadedAttention, PositionwiseFeedForward, PositionalEncoding, EncoderDecoder, Encoder, EncoderLayer, Decoder, DecoderLayer, Embeddings, Generator
 
-
 def make_model(
-    src_vocab, tgt_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0.1
+    src_vocab, 
+    tgt_vocab, 
+    N=6, 
+    d_model=512, 
+    d_ff=2048, 
+    h=8, 
+    dropout=0.1
 ):
     "Helper: Construct a model from hyperparameters."
     c = copy.deepcopy
@@ -51,6 +57,8 @@ def make_model(
         nn.Sequential(Embeddings(d_model, tgt_vocab), c(position)),
         Generator(d_model, tgt_vocab),
     )
+
+    summary(model, verbose=0)
 
     # This was important from their code.
     # Initialize parameters with Glorot / fan_avg.
