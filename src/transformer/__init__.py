@@ -58,7 +58,7 @@ def make_model(
         Generator(d_model, tgt_vocab),
     )
 
-    summary(model, verbose=0)
+    print(summary(model, verbose=0))
 
     # This was important from their code.
     # Initialize parameters with Glorot / fan_avg.
