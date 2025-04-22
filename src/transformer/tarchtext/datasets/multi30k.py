@@ -125,11 +125,13 @@ def Multi30k(root: str, split: Union[Tuple[str], str], language_pair: Tuple[str]
     tgt_cache_decompressed_dp = tgt_cache_decompressed_dp.end_caching(mode="wb", same_filepath_fn=True)
 
     MMT16_TASK1_TEST_TAR_GZ = os.path.join(DATASET_CACHE_DIR, "mmt16_task1_test.tar.gz")
-    # open file 
-    file = tarfile.open(MMT16_TASK1_TEST_TAR_GZ)
-    # extracting file 
-    file.extractall(DATASET_CACHE_DIR) 
-    file.close()
+
+    if os.path.exists(MMT16_TASK1_TEST_TAR_GZ):
+        # open file 
+        file = tarfile.open(MMT16_TASK1_TEST_TAR_GZ)
+        # extracting file 
+        file.extractall(DATASET_CACHE_DIR) 
+        file.close()
 
     src_data_dp = FileOpener(src_cache_decompressed_dp, encoding="utf-8").readlines(
         return_path=False, strip_newline=True
