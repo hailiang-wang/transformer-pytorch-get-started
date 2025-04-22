@@ -1,6 +1,7 @@
 import os
 from functools import partial
 from typing import Union, Tuple
+import tarfile
 
 # noqa
 
@@ -8,6 +9,7 @@ from transformer.tarchtext._internal.module_utils import is_module_available
 from transformer.tarchtext.data.datasets_utils import (
     _wrap_split_argument,
     _create_dataset_directory,
+    _CACHE_DIR,
 )
 
 # TODO: Update URL to original once the server is back up (see https://github.com/pytorch/text/issues/1756)
@@ -36,6 +38,7 @@ NUM_LINES = {
 }
 
 DATASET_NAME = "Multi30k"
+DATASET_CACHE_DIR = os.path.join(_CACHE_DIR, DATASET_NAME)
 
 
 def _filepath_fn(root, split, _=None):
@@ -120,6 +123,13 @@ def Multi30k(root: str, split: Union[Tuple[str], str], language_pair: Tuple[str]
         .filter(partial(_filter_fn, split, language_pair, 1))
     )
     tgt_cache_decompressed_dp = tgt_cache_decompressed_dp.end_caching(mode="wb", same_filepath_fn=True)
+
+    MMT16_TASK1_TEST_TAR_GZ = os.path.join(DATASET_CACHE_DIR, "mmt16_task1_test.tar.gz")
+    # open file 
+    file = tarfile.open(MMT16_TASK1_TEST_TAR_GZ)
+    # extracting file 
+    file.extractall(DATASET_CACHE_DIR) 
+    file.close()
 
     src_data_dp = FileOpener(src_cache_decompressed_dp, encoding="utf-8").readlines(
         return_path=False, strip_newline=True
