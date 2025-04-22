@@ -2,6 +2,7 @@ import codecs
 import functools
 import inspect
 import os
+import tempfile
 
 from torch.utils.data import functional_datapipe, IterDataPipe
 from torch.utils.data.datapipes.utils.common import StreamWrapper
@@ -11,11 +12,11 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
 
-import tempfile
-
 _CACHE_DIR = os.path.join(tempfile.gettempdir(), "tarchtext")
 if not os.path.exists(_CACHE_DIR):
     os.makedirs(_CACHE_DIR)
+
+print(">> INFO _CACHE_DIR", _CACHE_DIR)
 
 """
 These functions and classes are meant solely for use in torchtext.datasets and not
