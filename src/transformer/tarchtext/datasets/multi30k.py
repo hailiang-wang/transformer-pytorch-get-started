@@ -11,6 +11,7 @@ from ..data.datasets_utils import (
     _create_dataset_directory,
     DATASETS_CACHE_DIR,
 )
+from ..wget import download as wget_download
 
 # TODO: Update URL to original once the server is back up (see https://github.com/pytorch/text/issues/1756)
 URL = {
@@ -91,6 +92,27 @@ def Multi30k(root: str, split: Union[Tuple[str], str], language_pair: Tuple[str]
         raise ModuleNotFoundError(
             "Package `torchdata` not found. Please install following instructions at https://github.com/pytorch/data"
         )
+    
+    ###################################
+    # Download test
+    ###################################
+
+    MMT16_TASK1_TEST_TAR_GZ = os.path.join(DATASET_CACHE_DIR, "mmt16_task1_test.tar.gz")
+
+    print(">> INFO MMT16_TASK1_TEST_TAR_GZ on path", MMT16_TASK1_TEST_TAR_GZ)
+    if not os.path.exists(MMT16_TASK1_TEST_TAR_GZ):
+        print(">> INFO existed MMT16_TASK1_TEST_TAR_GZ")
+        wget_download(URL["test"], DATASET_CACHE_DIR)
+        # open file
+        file = tarfile.open(MMT16_TASK1_TEST_TAR_GZ)
+        # extracting file
+        file.extractall(DATASET_CACHE_DIR)
+        file.close()
+    else:
+        print(">> WARN not exist MMT16_TASK1_TEST_TAR_GZ")
+
+
+
     from torchdata.datapipes.iter import FileOpener, GDriveReader, HttpReader, IterableWrapper  # noqa
 
     url_dp = IterableWrapper([URL[split]])
@@ -130,18 +152,5 @@ def Multi30k(root: str, split: Union[Tuple[str], str], language_pair: Tuple[str]
     tgt_data_dp = FileOpener(tgt_cache_decompressed_dp, encoding="utf-8").readlines(
         return_path=False, strip_newline=True
     )
-
-    MMT16_TASK1_TEST_TAR_GZ = os.path.join(DATASET_CACHE_DIR, "mmt16_task1_test.tar.gz")
-
-    print(">> INFO MMT16_TASK1_TEST_TAR_GZ on path", MMT16_TASK1_TEST_TAR_GZ)
-    if os.path.exists(MMT16_TASK1_TEST_TAR_GZ):
-        print(">> INFO existed MMT16_TASK1_TEST_TAR_GZ")
-        # open file
-        file = tarfile.open(MMT16_TASK1_TEST_TAR_GZ)
-        # extracting file
-        file.extractall(DATASET_CACHE_DIR)
-        file.close()
-    else:
-        print(">> WARN not exist MMT16_TASK1_TEST_TAR_GZ")
 
     return src_data_dp.zip(tgt_data_dp).shuffle().set_shuffle(False).sharding_filter()
