@@ -2,7 +2,7 @@ import collections
 import math
 
 import torch
-from transformer.tarchtext.data.utils import ngrams_iterator
+from .utils import ngrams_iterator
 
 
 def _compute_ngram_counter(tokens, max_n):

@@ -4,6 +4,7 @@ import inspect
 import os
 import tempfile
 
+from torch.hub import _get_torch_home
 from torch.utils.data import functional_datapipe, IterDataPipe
 from torch.utils.data.datapipes.utils.common import StreamWrapper
 
@@ -12,7 +13,7 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
 
-_CACHE_DIR = os.path.join(tempfile.gettempdir(), "tarchtext")
+_CACHE_DIR = os.path.expanduser(os.path.join(_get_torch_home(), "text"))
 K_DATASETS = "datasets"
 DATASETS_CACHE_DIR = os.path.join(_CACHE_DIR, K_DATASETS)
 if not os.path.exists(DATASETS_CACHE_DIR):

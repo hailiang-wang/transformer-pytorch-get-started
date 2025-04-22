@@ -96,10 +96,9 @@ def Multi30k(root: str, split: Union[Tuple[str], str], language_pair: Tuple[str]
     ###################################
     # Download test
     ###################################
-
     MMT16_TASK1_TEST_TAR_GZ = os.path.join(DATASET_CACHE_DIR, "mmt16_task1_test.tar.gz")
 
-    print(">> CHECK MMT16_TASK1_TEST_TAR_GZ on path", MMT16_TASK1_TEST_TAR_GZ)
+    # print(">> CHECK MMT16_TASK1_TEST_TAR_GZ on path", MMT16_TASK1_TEST_TAR_GZ)
     if not os.path.exists(MMT16_TASK1_TEST_TAR_GZ):
         print(">> WARN not exist MMT16_TASK1_TEST_TAR_GZ, start to download.")
         wget_download(URL["test"], DATASET_CACHE_DIR)
@@ -108,8 +107,6 @@ def Multi30k(root: str, split: Union[Tuple[str], str], language_pair: Tuple[str]
         # extracting file
         file.extractall(DATASET_CACHE_DIR)
         file.close()
-    else:
-        print(">> INFO exist MMT16_TASK1_TEST_TAR_GZ")
 
     from torchdata.datapipes.iter import FileOpener, GDriveReader, HttpReader, IterableWrapper  # noqa
 
