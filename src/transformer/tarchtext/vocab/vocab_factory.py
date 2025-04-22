@@ -57,7 +57,7 @@ def vocab(
     else:
         tokens.extend(specials)
 
-    return Vocab(tokens, None)
+    return Vocab(tokens)
 
 
 def build_vocab_from_iterator(
