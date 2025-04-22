@@ -1,8 +1,6 @@
 from collections import Counter, OrderedDict
 from typing import Dict, Iterable, List, Optional
 
-from .._torchtext import Vocab as VocabPybind
-
 from .vocab import Vocab
 
 
@@ -59,7 +57,7 @@ def vocab(
     else:
         tokens.extend(specials)
 
-    return Vocab(VocabPybind(tokens, None))
+    return Vocab(tokens, None)
 
 
 def build_vocab_from_iterator(
