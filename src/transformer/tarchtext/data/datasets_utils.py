@@ -13,10 +13,12 @@ except ImportError:
     import xml.etree.ElementTree as ET
 
 _CACHE_DIR = os.path.join(tempfile.gettempdir(), "tarchtext")
-if not os.path.exists(_CACHE_DIR):
-    os.makedirs(_CACHE_DIR)
+K_DATASETS = "datasets"
+DATASETS_CACHE_DIR = os.path.join(_CACHE_DIR, K_DATASETS)
+if not os.path.exists(DATASETS_CACHE_DIR):
+    os.makedirs(DATASETS_CACHE_DIR)
 
-print(">> INFO _CACHE_DIR", _CACHE_DIR)
+print(">> INFO DATASETS_CACHE_DIR", DATASETS_CACHE_DIR)
 
 """
 These functions and classes are meant solely for use in torchtext.datasets and not
@@ -192,7 +194,7 @@ def _create_dataset_directory(dataset_name):
 
         @functools.wraps(fn)
         def wrapper(root=_CACHE_DIR, *args, **kwargs):
-            new_root = os.path.join(root, "datasets", dataset_name)
+            new_root = os.path.join(root, K_DATASETS, dataset_name)
             if not os.path.exists(new_root):
                 os.makedirs(new_root, exist_ok=True)
             return fn(root=new_root, *args, **kwargs)

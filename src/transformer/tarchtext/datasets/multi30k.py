@@ -9,7 +9,7 @@ from transformer.tarchtext._internal.module_utils import is_module_available
 from transformer.tarchtext.data.datasets_utils import (
     _wrap_split_argument,
     _create_dataset_directory,
-    _CACHE_DIR,
+    DATASETS_CACHE_DIR,
 )
 
 # TODO: Update URL to original once the server is back up (see https://github.com/pytorch/text/issues/1756)
@@ -38,7 +38,7 @@ NUM_LINES = {
 }
 
 DATASET_NAME = "Multi30k"
-DATASET_CACHE_DIR = os.path.join(_CACHE_DIR, DATASET_NAME)
+DATASET_CACHE_DIR = os.path.join(DATASETS_CACHE_DIR, DATASET_NAME)
 
 
 def _filepath_fn(root, split, _=None):
