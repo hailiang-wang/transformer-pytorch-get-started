@@ -1,8 +1,6 @@
 from .functional import (
     custom_replace,
     filter_wikipedia_xml,
-    generate_sp_model,
-    load_sp_model,
     numericalize_tokens_from_iterator,
     sentencepiece_numericalizer,
     sentencepiece_tokenizer,
@@ -16,8 +14,6 @@ __all__ = [
     "bleu_score",
     "get_tokenizer",
     "interleave_keys",
-    "generate_sp_model",
-    "load_sp_model",
     "sentencepiece_numericalizer",
     "sentencepiece_tokenizer",
     "custom_replace",
