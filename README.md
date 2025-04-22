@@ -32,7 +32,7 @@ back those same symbols.
 ![alt text](assets/media/1744877380417.png)
 
 
-### 002. 
+### 002. A Real Word Example
 
 First, run 
 

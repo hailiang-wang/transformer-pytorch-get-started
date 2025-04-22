@@ -31,7 +31,7 @@ from os.path import exists
 import torch
 from torch.optim.lr_scheduler import LambdaLR
 import spacy
-import torchtext.datasets as datasets
+import transformer.tarchtext.datasets as datasets
 from torchtext.vocab import build_vocab_from_iterator
 from torch.nn.parallel import DistributedDataParallel as DDP
 import torch.distributed as dist

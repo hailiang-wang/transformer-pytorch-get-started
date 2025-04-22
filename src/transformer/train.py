@@ -27,13 +27,9 @@ if sys.version_info[0] < 3:
 else:
     unicode = str
 
-import torchtext; torchtext.disable_torchtext_deprecation_warning()
-
 import time
 import torch
 import torch.nn as nn
-import pandas as pd
-import altair as alt
 
 from transformer.helpers import subsequent_mask
 

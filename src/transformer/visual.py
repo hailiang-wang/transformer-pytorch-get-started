@@ -27,12 +27,8 @@ if sys.version_info[0] < 3:
 else:
     unicode = str
 
-import torchtext; torchtext.disable_torchtext_deprecation_warning()
-
 import pandas as pd
 import altair as alt
-import torch
-
 
 def mtx2df(m, max_row, max_col, row_tokens, col_tokens):
     "convert a dense matrix to a data frame with row and column indices"

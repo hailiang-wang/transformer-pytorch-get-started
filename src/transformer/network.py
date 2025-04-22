@@ -27,8 +27,6 @@ if sys.version_info[0] < 3:
 else:
     unicode = str
 
-import torchtext; torchtext.disable_torchtext_deprecation_warning()
-
 import torch
 import torch.nn as nn
 from torch.nn.functional import log_softmax
