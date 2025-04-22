@@ -4,8 +4,6 @@ import re
 import torch
 
 __all__ = [
-    "generate_sp_model",
-    "load_sp_model",
     "sentencepiece_numericalizer",
     "sentencepiece_tokenizer",
     "numericalize_tokens_from_iterator",
@@ -18,54 +16,6 @@ __all__ = [
 This file contains experimental functionality.
 All of these are experimental, unstable, and subject to change or deletion.
 """
-
-
-def generate_sp_model(filename, vocab_size=20000, model_type="unigram", model_prefix="m_user"):
-    r"""Train a SentencePiece tokenizer.
-
-    Args:
-        filename: the data file for training SentencePiece model.
-        vocab_size: the size of vocabulary (Default: 20,000).
-        model_type: the type of SentencePiece model, including unigram,
-            bpe, char, word.
-        model_prefix: the prefix of the files saving model and vocab.
-
-    Outputs:
-        The model and vocab are saved in two separate files with
-            model_prefix.
-
-    Examples:
-        >>> from torchtext.data.functional import generate_sp_model
-        >>> generate_sp_model('test.csv', vocab_size=23456, model_prefix='spm_user')
-    """
-    torch.ops.torchtext.generate_sp_model(filename, vocab_size, model_type, model_prefix)
-
-
-def load_sp_model(spm):
-    r"""Load a  sentencepiece model for file.
-
-    Args:
-        spm: the file path or a file object saving the sentencepiece model.
-
-    Outputs:
-        output: a SentencePiece model.
-
-    Examples:
-        >>> from torchtext.data.functional import load_sp_model
-        >>> sp_model = load_sp_model("m_user.model")
-        >>> sp_model = load_sp_model(open("m_user.model", 'rb'))
-    """
-    if isinstance(spm, str):
-        return torch.ops.torchtext.load_sp_model(spm)
-    elif isinstance(spm, io.BufferedReader):
-        return torch.ops.torchtext.load_sp_model_string(spm.read())
-    else:
-        raise TypeError(
-            f"Unsupported type for spm argument: {type(spm).__name__}. "
-            + "Supported types are: "
-            + ", ".join(["str", "io.BufferedReader"])
-        )
-
 
 def sentencepiece_numericalizer(sp_model):
     r"""A sentencepiece model to numericalize a text sentence into

@@ -32,12 +32,12 @@ import torch
 from torch.optim.lr_scheduler import LambdaLR
 import spacy
 import transformer.tarchtext.datasets as datasets
-from torchtext.vocab import build_vocab_from_iterator
+from transformer.tarchtext.vocab import build_vocab_from_iterator
 from torch.nn.parallel import DistributedDataParallel as DDP
 import torch.distributed as dist
 from torch.utils.data import DataLoader
 from torch.nn.functional import pad
-from torchtext.data.functional import to_map_style_dataset
+from transformer.tarchtext.data.functional import to_map_style_dataset
 from torch.utils.data.distributed import DistributedSampler
 from torchinfo import summary
 import GPUtil
