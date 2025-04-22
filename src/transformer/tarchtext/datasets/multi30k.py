@@ -5,8 +5,8 @@ import tarfile
 
 # noqa
 
-from transformer.tarchtext._internal.module_utils import is_module_available
-from transformer.tarchtext.data.datasets_utils import (
+from .._internal.module_utils import is_module_available
+from ..data.datasets_utils import (
     _wrap_split_argument,
     _create_dataset_directory,
     DATASETS_CACHE_DIR,

@@ -1,7 +1,7 @@
 from collections import Counter, OrderedDict
 from typing import Dict, Iterable, List, Optional
 
-from transformer.tarchtext._torchtext import Vocab as VocabPybind
+from .._torchtext import Vocab as VocabPybind
 
 from .vocab import Vocab
 
