@@ -12,9 +12,27 @@ class Vocab(nn.Module):
         vocab (torch.classes.torchtext.Vocab or torchtext._torchtext.Vocab): a cpp vocab object.
     """
 
-    def __init__(self, vocab) -> None:
+    def __init__(self, tokens) -> None:
         super(Vocab, self).__init__()
-        self.vocab = vocab
+        self.tokens = tokens
+        self.__build()
+
+    def __build(self) -> None:
+        self.vocab_set = set()
+        self.vocab_num2term = dict()
+        self.vocab_term2num = dict()
+        self.default_index = 0
+
+        counter = 0
+
+        for t in self.tokens:
+            if not t in self.vocab_set:
+                self.vocab_set.add(t)
+                self.vocab_term2num[t] = counter
+                self.vocab_num2term[counter] = t
+                counter += 1
+
+        self.vocab_size = len(self.vocab_set)
 
     @property
     def is_jitable(self):
@@ -30,7 +48,7 @@ class Vocab(nn.Module):
         Returns:
             The indices associated with a list of `tokens`.
         """
-        return self.vocab.lookup_indices(tokens)
+        return self.lookup_indices(tokens)
 
     @torch.jit.export
     def __len__(self) -> int:
@@ -38,7 +56,7 @@ class Vocab(nn.Module):
         Returns:
             The length of the vocab.
         """
-        return len(self.vocab)
+        return self.vocab_size
 
     @torch.jit.export
     def __contains__(self, token: str) -> bool:
@@ -49,7 +67,7 @@ class Vocab(nn.Module):
         Returns:
             Whether the token is member of vocab or not.
         """
-        return self.vocab.__contains__(token)
+        return token in self.vocab_set
 
     @torch.jit.export
     def __getitem__(self, token: str) -> int:
@@ -60,7 +78,7 @@ class Vocab(nn.Module):
         Returns:
             The index corresponding to the associated token.
         """
-        return self.vocab[token]
+        return self.vocab_term2num[token]
 
     @torch.jit.export
     def set_default_index(self, index: Optional[int]) -> None:
@@ -68,7 +86,7 @@ class Vocab(nn.Module):
         Args:
             index: Value of default index. This index will be returned when OOV token is queried.
         """
-        self.vocab.set_default_index(index)
+        self.default_index = index
 
     @torch.jit.export
     def get_default_index(self) -> Optional[int]:
@@ -76,7 +94,7 @@ class Vocab(nn.Module):
         Returns:
             Value of default index if it is set.
         """
-        return self.vocab.get_default_index()
+        return self.default_index
 
     @torch.jit.export
     def insert_token(self, token: str, index: int) -> None:
@@ -87,7 +105,15 @@ class Vocab(nn.Module):
         Raises:
             RuntimeError: If `index` is not in range [0, Vocab.size()] or if `token` already exists in the vocab.
         """
-        self.vocab.insert_token(token, index)
+
+        if token in self.vocab_set:
+            raise RuntimeError("`token` already exists in the vocab.")
+        
+        if index < 0 or index > self.vocab_size:
+            raise RuntimeError("`index` is not in range [0, Vocab.size()]")
+
+        self.tokens.insert(index, token)
+        self.__build()
 
     @torch.jit.export
     def append_token(self, token: str) -> None:
@@ -98,7 +124,15 @@ class Vocab(nn.Module):
         Raises:
             RuntimeError: If `token` already exists in the vocab
         """
-        self.vocab.append_token(token)
+        if token in self.vocab_set:
+            raise RuntimeError("`token` already exists in the vocab.")
+        
+        self.tokens.append(token)
+        idx = self.vocab_size
+        self.vocab_num2term[idx] = token
+        self.vocab_term2num[token] = idx
+        self.vocab_set.add(token)
+        self.vocab_size += 1
 
     @torch.jit.export
     def lookup_token(self, index: int) -> str:
@@ -112,7 +146,10 @@ class Vocab(nn.Module):
         Raises:
             RuntimeError: If `index` not in range [0, itos.size()).
         """
-        return self.vocab.lookup_token(index)
+        if index >= 0 and index < self.vocab_size:
+            return self.vocab_num2term[index]
+        else:
+            raise RuntimeError("`index` not in range [0, itos.size())")
 
     @torch.jit.export
     def lookup_tokens(self, indices: List[int]) -> List[str]:
@@ -126,7 +163,17 @@ class Vocab(nn.Module):
         Raises:
             RuntimeError: If an index within `indices` is not int range [0, itos.size()).
         """
-        return self.vocab.lookup_tokens(indices)
+
+        ret = []
+
+        for num in indices:
+            if num >= 0 and num < self.vocab_size:
+                ret.append(self.vocab_num2term[num])
+            else:
+                raise RuntimeError("indice must be in range [0, size]")
+
+
+        return ret
 
     @torch.jit.export
     def lookup_indices(self, tokens: List[str]) -> List[int]:
@@ -137,7 +184,18 @@ class Vocab(nn.Module):
         Returns:
             The 'indices` associated with `tokens`.
         """
-        return self.vocab.lookup_indices(tokens)
+
+        ret = []
+
+
+        for t in tokens:
+            if t in self.vocab_set:
+                ret.append(self.vocab_term2num[t])
+            else:
+                # token get default index
+                ret.append(self.default_index)
+
+        return ret
 
     @torch.jit.export
     def get_stoi(self) -> Dict[str, int]:
@@ -145,7 +203,7 @@ class Vocab(nn.Module):
         Returns:
             Dictionary mapping tokens to indices.
         """
-        return self.vocab.get_stoi()
+        return self.vocab_term2num
 
     @torch.jit.export
     def get_itos(self) -> List[str]:
@@ -153,11 +211,4 @@ class Vocab(nn.Module):
         Returns:
             List mapping indices to tokens.
         """
-        return self.vocab.get_itos()
-
-    def __prepare_scriptable__(self):
-        r"""Return a JITable Vocab."""
-        if not self.is_jitable:
-            cpp_vocab = torch.classes.torchtext.Vocab(self.vocab.itos_, self.vocab.default_index_)
-            return Vocab(cpp_vocab)
-        return self
+        return self.tokens

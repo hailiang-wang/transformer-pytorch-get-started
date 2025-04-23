@@ -1,0 +1,9 @@
+setup_touchtext.py
+touchtext/__init__.py
+touchtext/functional.py
+touchtext/wget.py
+touchtext.egg-info/PKG-INFO
+touchtext.egg-info/SOURCES.txt
+touchtext.egg-info/dependency_links.txt
+touchtext.egg-info/requires.txt
+touchtext.egg-info/top_level.txt
