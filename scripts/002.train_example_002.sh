@@ -34,7 +34,7 @@ fi
 
 # commit changes
 cd $baseDir/..
-$baseDir/commit.sh
+# $baseDir/commit.sh
 
 if [ ! $? -eq 0 ]; then
     echo "Error on commit code before training."
@@ -51,5 +51,5 @@ cd $baseDir/../src
 python train_example_002.py
 
 # push results
-cd $baseDir/..
-git push origin master
+# cd $baseDir/..
+# git push origin master
