@@ -10,6 +10,7 @@ from ..data.datasets_utils import (
     _wrap_split_argument,
     _create_dataset_directory,
     DATASETS_CACHE_DIR,
+    HTTPReaderIterDataPipe as HttpReader,
 )
 from ..wget import download as wget_download
 
@@ -108,7 +109,7 @@ def Multi30k(root: str, split: Union[Tuple[str], str], language_pair: Tuple[str]
         file.extractall(DATASET_CACHE_DIR)
         file.close()
 
-    from torchdata.datapipes.iter import FileOpener, GDriveReader, HttpReader, IterableWrapper  # noqa
+    from torch.utils.data.datapipes.iter import FileOpener, IterableWrapper  # noqa
 
     url_dp = IterableWrapper([URL[split]])
 
