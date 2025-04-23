@@ -15,3 +15,7 @@ rm -rf ./dist/*
 # python setup.py sdist upload -r pypi
 python setup_touchtext.py sdist
 twine upload --repository pypi dist/*
+
+if [ $? -eq '0' ]; then
+    rm -rf *.egg-info/
+fi
