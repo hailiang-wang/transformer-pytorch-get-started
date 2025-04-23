@@ -109,9 +109,7 @@ def Multi30k(root: str, split: Union[Tuple[str], str], language_pair: Tuple[str]
         file.extractall(DATASET_CACHE_DIR)
         file.close()
 
-    from torch.utils.data.datapipes.iter.utils import (
-        IterableWrapperIterDataPipe as IterableWrapper,
-    )
+    from torchdata.datapipes.iter import IterableWrapper  # noqa
     from torch.utils.data.datapipes.iter import FileOpener  # noqa
 
     url_dp = IterableWrapper([URL[split]])
