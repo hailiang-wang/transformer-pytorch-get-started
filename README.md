@@ -13,7 +13,7 @@ Setup Transformer Project with [annotated-transformer](https://nlp.seas.harvard.
 pip install -r requirements.txt
 ```
 
-*Required `torch==2.3.1+cu121` and `torchtext==0.18.0`.
+*Required `torch==2.6.0+cu124`.
 
 
 ## Run exmaple
