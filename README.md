@@ -1,4 +1,7 @@
 # transformer-pytorch-get-started
+
+Migrated to [https://github.com/hailiang-wang/llm-get-started/tree/master/001_transformer](https://github.com/hailiang-wang/llm-get-started/tree/master/001_transformer)
+
 [https://github.com/hailiang-wang/transformer-pytorch-get-started](https://github.com/hailiang-wang/transformer-pytorch-get-started)
 
 <!-- [http://114.242.12.42:3000/hailiang-wang/transformer-pytorch-get-started](http://114.242.12.42:3000/hailiang-wang/transformer-pytorch-get-started) -->
